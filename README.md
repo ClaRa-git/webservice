@@ -48,7 +48,7 @@ CORS_ALLOW_ORIGIN='*'
 Pour démarrer les conteneurs Docker, exécutez :
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
 ## ⚙️ Configuration du fichier d'alias
