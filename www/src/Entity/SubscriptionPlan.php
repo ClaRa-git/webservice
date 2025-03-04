@@ -131,12 +131,12 @@ class SubscriptionPlan
         return $this;
     }
 
-    public function isFeatured(): ?bool
+    public function getIsFeatured(): ?bool
     {
         return $this->isFeatured;
     }
 
-    public function setFeatured(bool $isFeatured): static
+    public function setIsFeatured(bool $isFeatured): static
     {
         $this->isFeatured = $isFeatured;
 
