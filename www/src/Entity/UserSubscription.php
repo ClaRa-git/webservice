@@ -2,36 +2,60 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Metadata\ApiResource;
-use App\Repository\UserSubscriptionRepository;
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
+use ApiPlatform\Metadata\Get;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use App\Repository\UserSubscriptionRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: UserSubscriptionRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    normalizationContext: ['groups' => ['subscription:read']]
+)]
+#[ApiFilter(
+    SearchFilter::class,
+    properties: [
+        'user.email' => 'exact'
+    ]
+)]
 class UserSubscription
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['subscription:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'userSubscriptions')]
+    #[Groups(['ubscription:read'])]
     private ?User $user = null;
 
     #[ORM\ManyToOne(inversedBy: 'userSubscriptions')]
+    #[Groups(['subscription:read'])]
     private ?SubscriptionPlan $plan = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['subscription:read'])]
     private ?string $stripeSubscriptionId = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['subscription:read'])]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['subscription:read'])]
     private ?\DateTimeInterface $endDate = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['subscription:read'])]
     private ?string $status = null;
 
     public function getId(): ?int

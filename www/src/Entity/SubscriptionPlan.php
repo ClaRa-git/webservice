@@ -2,37 +2,53 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\Get;
+use Doctrine\ORM\Mapping as ORM;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use Doctrine\Common\Collections\Collection;
 use App\Repository\SubscriptionPlanRepository;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SubscriptionPlanRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    operations: [
+        new GetCollection(),
+        new Get()
+    ],
+    normalizationContext: ['groups' => ['subscriptionPlan:read']]
+)]
 class SubscriptionPlan
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['subscriptionPlan:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['subscriptionPlan:read'])]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups(['subscriptionPlan:read'])]
     private ?int $price = null;
 
     #[ORM\Column(length: 50)]
+    #[Groups(['subscriptionPlan:read'])]
     private ?string $period = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['subscriptionPlan:read'])]
     private ?string $stripeProductId = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['subscriptionPlan:read'])]
     private ?string $stripePriceId = null;
 
     #[ORM\Column]
+    #[Groups(['subscriptionPlan:read'])]
     private ?bool $isFeatured = null;
 
     /**
@@ -42,6 +58,7 @@ class SubscriptionPlan
     private Collection $userSubscriptions;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['subscriptionPlan:read'])]
     private ?string $discount = null;
 
     public function __construct()
