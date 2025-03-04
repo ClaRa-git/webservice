@@ -82,10 +82,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:read', 'user:write'])]
     private ?Avatar $avatar = null;
 
+    /**
+     * @var Collection<int, UserSubscription>
+     */
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSubscription::class)]
+    private Collection $userSubscription;
+
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
         $this->albums = new ArrayCollection();
+        $this->userSubscription = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -244,6 +251,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAvatar(?Avatar $avatar): static
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserSubscription>
+     */
+    public function getUserSubscription(): Collection
+    {
+        return $this->userSubscription;
+    }
+
+    public function addUserSubscription(UserSubscription $userSubscription): static
+    {
+        if (!$this->userSubscription->contains($userSubscription)) {
+            $this->userSubscription->add($userSubscription);
+            $userSubscription->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removePlan(UserSubscription $userSubscription): static
+    {
+        if ($this->userSubscription->removeElement($userSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userSubscription->getUser() === $this) {
+                $userSubscription->setUser(null);
+            }
+        }
 
         return $this;
     }

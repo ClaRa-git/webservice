@@ -1,0 +1,170 @@
+<?php
+
+namespace App\Entity;
+
+use ApiPlatform\Metadata\ApiResource;
+use App\Repository\SubscriptionPlanRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\ORM\Mapping as ORM;
+
+#[ORM\Entity(repositoryClass: SubscriptionPlanRepository::class)]
+#[ApiResource]
+class SubscriptionPlan
+{
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
+    #[ORM\Column]
+    private ?int $price = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $period = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $stripeProductId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripePriceId = null;
+
+    #[ORM\Column]
+    private ?bool $isFeatured = null;
+
+    /**
+     * @var Collection<int, UserSubscription>
+     */
+    #[ORM\OneToMany(mappedBy: 'plan', targetEntity: UserSubscription::class)]
+    private Collection $userSubscriptions;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $discount = null;
+
+    public function __construct()
+    {
+        $this->userSubscriptions = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    public function getPeriod(): ?string
+    {
+        return $this->period;
+    }
+
+    public function setPeriod(string $period): static
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    public function getStripeProductId(): ?string
+    {
+        return $this->stripeProductId;
+    }
+
+    public function setStripeProductId(string $stripeProductId): static
+    {
+        $this->stripeProductId = $stripeProductId;
+
+        return $this;
+    }
+
+    public function getStripePriceId(): ?string
+    {
+        return $this->stripePriceId;
+    }
+
+    public function setStripePriceId(?string $stripePriceId): static
+    {
+        $this->stripePriceId = $stripePriceId;
+
+        return $this;
+    }
+
+    public function isFeatured(): ?bool
+    {
+        return $this->isFeatured;
+    }
+
+    public function setFeatured(bool $isFeatured): static
+    {
+        $this->isFeatured = $isFeatured;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserSubscription>
+     */
+    public function getUserSubscriptions(): Collection
+    {
+        return $this->userSubscriptions;
+    }
+
+    public function addUserSubscription(UserSubscription $userSubscription): static
+    {
+        if (!$this->userSubscriptions->contains($userSubscription)) {
+            $this->userSubscriptions->add($userSubscription);
+            $userSubscription->setPlan($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserSubscription(UserSubscription $userSubscription): static
+    {
+        if ($this->userSubscriptions->removeElement($userSubscription)) {
+            // set the owning side to null (unless already changed)
+            if ($userSubscription->getPlan() === $this) {
+                $userSubscription->setPlan(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDiscount(): ?string
+    {
+        return $this->discount;
+    }
+
+    public function setDiscount(?string $discount): static
+    {
+        $this->discount = $discount;
+
+        return $this;
+    }
+}
