@@ -86,13 +86,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var Collection<int, UserSubscription>
      */
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: UserSubscription::class)]
-    private Collection $userSubscription;
+    private Collection $userSubscriptions;
 
     public function __construct()
     {
         $this->playlists = new ArrayCollection();
         $this->albums = new ArrayCollection();
-        $this->userSubscription = new ArrayCollection();
+        $this->userSubscriptions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -258,27 +258,27 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     /**
      * @return Collection<int, UserSubscription>
      */
-    public function getUserSubscription(): Collection
+    public function getUserSubscriptions(): Collection
     {
-        return $this->userSubscription;
+        return $this->userSubscriptions;
     }
 
-    public function addUserSubscription(UserSubscription $userSubscription): static
+    public function addUserSubscription(UserSubscription $userSubscriptions): static
     {
-        if (!$this->userSubscription->contains($userSubscription)) {
-            $this->userSubscription->add($userSubscription);
-            $userSubscription->setUser($this);
+        if (!$this->userSubscriptions->contains($userSubscriptions)) {
+            $this->userSubscriptions->add($userSubscriptions);
+            $userSubscriptions->setUser($this);
         }
 
         return $this;
     }
 
-    public function removePlan(UserSubscription $userSubscription): static
+    public function removePlan(UserSubscription $userSubscriptions): static
     {
-        if ($this->userSubscription->removeElement($userSubscription)) {
+        if ($this->userSubscriptions->removeElement($userSubscriptions)) {
             // set the owning side to null (unless already changed)
-            if ($userSubscription->getUser() === $this) {
-                $userSubscription->setUser(null);
+            if ($userSubscriptions->getUser() === $this) {
+                $userSubscriptions->setUser(null);
             }
         }
 
