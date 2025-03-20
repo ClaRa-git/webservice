@@ -2,9 +2,13 @@
 
 namespace App\Service;
 
+use PhpParser\Node\Stmt\TryCatch;
+use Stripe\Customer;
+use Stripe\Invoice;
 use Stripe\Price;
 use Stripe\Product;
 use Stripe\Stripe;
+use Stripe\Subscription;
 
 class StripeService
 {

@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PlaylistRepository::class)]
@@ -21,7 +22,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(),
         new GetCollection(),
-        new Patch()
+        new Patch(),
+        new Post()
     ],
     normalizationContext: ['groups' => ['playlist:read']],
     denormalizationContext: ['groups' => ['playlist:write']]
@@ -46,6 +48,7 @@ class Playlist
 
     #[ORM\ManyToOne(inversedBy: 'playlists')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['playlist:read', 'playlist:write'])]
     private ?User $user = null;
 
     #[ORM\ManyToMany(targetEntity: Song::class)]

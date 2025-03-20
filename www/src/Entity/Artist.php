@@ -50,11 +50,11 @@ class Artist
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['album:read', 'artist:read', 'user:read'])]
+    #[Groups(['album:read', 'artist:read', 'user:read', 'song:read', 'playlist:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['album:read', 'artist:read', 'user:read'])]
+    #[Groups(['album:read', 'artist:read', 'user:read', 'song:read', 'playlist:read'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
@@ -65,7 +65,7 @@ class Artist
     #[Groups(['artist:read'])]
     private Collection $albums;
 
-    #[Groups(['album:read', 'artist:read', 'user:read'])]
+    #[Groups(['album:read', 'artist:read', 'user:read', 'song:read', 'playlist:read'])]
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $imagePath = null;
 

@@ -14,11 +14,11 @@ class Genre
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['album:read', 'artist:read', 'user:read'])]
+    #[Groups(['album:read', 'artist:read', 'user:read', 'song:read', 'playlist:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['album:read', 'artist:read', 'user:read'])]
+    #[Groups(['album:read', 'artist:read', 'user:read', 'song:read', 'playlist:read'])]
     private ?string $label = null;
 
     #[ORM\ManyToMany(targetEntity: Album::class, mappedBy: 'genre')]

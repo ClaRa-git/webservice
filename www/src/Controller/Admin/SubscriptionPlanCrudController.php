@@ -47,7 +47,8 @@ class SubscriptionPlanCrudController extends AbstractCrudController
             ChoiceField::new('period', 'Période de facturation')
                 ->setChoices([
                     'Mensuel' => 'month',
-                    'Annuel' => 'year'
+                    'Annuel' => 'year',
+                    'Quotidien' => 'day'
                 ]),
             TextField::new('discount', 'Label promo (ex: sans engagement, 18% de réduction)'),
             BooleanField::new('isFeatured', 'Mettre en avant')
