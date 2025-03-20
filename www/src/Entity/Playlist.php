@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\GetCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
 use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -23,7 +24,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new GetCollection(),
         new Patch(),
-        new Post()
+        new Post(),
+        new Delete()
     ],
     normalizationContext: ['groups' => ['playlist:read']],
     denormalizationContext: ['groups' => ['playlist:write']]
